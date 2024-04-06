@@ -20,7 +20,7 @@ async function bootstrap() {
   });
   const configService = app.get(ConfigService);
   app.setGlobalPrefix('gea-microservice');
-  await app.listen(configService.get('PORT') || 3000);
   await app.startAllMicroservices();
+  await app.listen(configService.get('PORT') || 3000);
 }
 bootstrap();
