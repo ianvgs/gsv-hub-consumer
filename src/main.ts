@@ -8,6 +8,9 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  app.setGlobalPrefix('gea-microservice');
+  app.listen(configService.get('PORT') || 3000);
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
@@ -18,9 +21,20 @@ async function bootstrap() {
       persistent: true,
     },
   });
-  const configService = app.get(ConfigService);
-  app.setGlobalPrefix('gea-microservice');
   await app.startAllMicroservices();
-  await app.listen(configService.get('PORT') || 3000);
+
+  /*const app = await NestFactory.create(AppModule);
+    const rmqService = app.get<RmqService>(RmqService)
+    app.connectMicroservice(rmqService.getOptions('TESTING'))  
+    app.connectMicroservice({
+        transport: Transport.TCP,
+        options:{
+          port:3001
+        }
+      })
+    await app.startAllMicroservices()
+    app.listen(3001) 
+    await app.listen(configService.get('PORT');
+  */
 }
 bootstrap();

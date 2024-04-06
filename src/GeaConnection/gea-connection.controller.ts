@@ -2,9 +2,9 @@
 import { Controller, Get } from '@nestjs/common';
 
 @Controller('gea-connection')
-export class RmqController {
-  @Get('')
-  async geaCon() {
-    return 'hi';
-  }
+export class GeaConnectionController {
+  constructor() {}
+
+  @Get()
+  async getTodasCategoriasBySiteId() {}
 }
