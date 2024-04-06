@@ -2,6 +2,7 @@
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,7 +18,9 @@ async function bootstrap() {
       persistent: true,
     },
   });
-
+  const configService = app.get(ConfigService);
+  app.setGlobalPrefix('gea-microservice');
+  await app.listen(configService.get('PORT') || 3000);
   await app.startAllMicroservices();
 }
 bootstrap();
